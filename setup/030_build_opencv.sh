@@ -24,7 +24,6 @@ sudo apt-get install -y \
      libavutil-dev \
      libswscale-dev \
      libv4l-dev \
-     libv4l2-dev \
      libxvidcore-dev \
      libx264-dev \
      libgtk-3-dev \

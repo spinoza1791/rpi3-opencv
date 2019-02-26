@@ -24,6 +24,7 @@ sudo apt-get install -y \
      libavutil-dev \
      libswscale-dev \
      libv4l-dev \
+     libv4l2-dev \
      libxvidcore-dev \
      libx264-dev \
      libgtk-3-dev \
@@ -35,6 +36,7 @@ sudo apt-get install -y \
      liblapack-dev \
      liblapacke-dev \
      libblas-dev \
+     libcanberra-gtk* \
      libopenblas-dev \
      gfortran \
      python-pip \
@@ -65,7 +67,8 @@ sudo apt-get install -y \
      libtbb-dev \
      libdc1394-22-dev \
      libunicap2-dev \
-     ffmpeg 
+     ffmpeg \
+     libopencv-highgui-dev \
 
 
 git clone --depth=1 -b ${V} --single-branch https://github.com/opencv/opencv.git
@@ -80,20 +83,9 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
       -D BUILD_SHARED_LIBS=ON \
-      -D BUILD_CUDA_STUBS=ON \
-      -D BUILD_DOCS=OFF \
-      -D BUILD_ZLIB=OFF \
-      -D BUILD_TIFF=OFF \
-      -D BUILD_JPEG=OFF \
-      -D BUILD_JASPER=OFF \
-      -D BUILD_PNG=OFF \
-      -D BUILD_OPENEXR=OFF \
-      -D BUILD_PERF_TESTS=OFF \
-      -D BUILD_TBB=OFF \
-      -D BUILD_WEBP=OFF \
-      -D BUILD_TESTS=OFF \
       -D BUILD_EXAMPLES=OFF \
-      -D BUILD_JAVA=OFF \
+      -D BUILD_TESTS=OFF \
+      -D OPENCV_ENABLE_NONFREE=ON \
       -D WITH_EIGEN=ON \
       -D WITH_GSTREAMER=ON \
       -D WITH_GTK=ON \
@@ -103,7 +95,6 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_PNG=ON \
       -D WITH_TIFF=ON \
       -D WITH_V4L=ON \
-      -D WITH_LIBV4L=ON \
       -D WITH_VTK=ON \
       -D WITH_LAPACK=ON \
       -D WITH_LAPACKE=ON \
@@ -112,101 +103,24 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_EIGEN=ON \
       -D WITH_FFMPEG=ON \
       -D WITH_GPHOTO2=ON \
-      -D WITH_OPENGL=OFF \
       -D WITH_QT=ON \
       -D WITH_TBB=ON \
       -D WITH_WEBP=ON \
       -D WITH_UNICAP=ON \
-      -D WITH_OPENNI=OFF \
-      -D WITH_GDAL=OFF \
-      -D WITH_CUBLAS=OFF \
-      -D WITH_NVCUVID=OFF \
-      -D WITH_CUDA=OFF \
-      -D WITH_CUFFT=OFF \
-      -D WITH_IPP=OFF \
-      -D WITH_IPP_A=OFF \
       -D WITH_OPENMP=ON \
-      -D WITH_PTHREADS_PF=OFF \
-      -D WITH_PVAPI=OFF \
-      -D WITH_MATLAB=OFF \
-      -D WITH_XIMEA=OFF \
-      -D WITH_XINE=OFF \
       -D WITH_OPENCL=ON \
-      -D WITH_OPENCLAMDBLAS=OFF \
-      -D WITH_OPENCLAMDFFT=OFF \
-      -D WITH_OPENCL_SVM=OFF \
-      -D INSTALL_PYTHON_EXAMPLES=ON \
+      -D INSTALL_PYTHON_EXAMPLES=OFF \
       -D ENABLE_CXX11=ON \
       -D ENABLE_CCACHE=ON \
       -D ENABLE_FAST_MATH=ON \
       -D ENABLE_NEON=ON \
       -D ENABLE_VFPV3=ON \
       -D ENABLE_OMIT_FRAME_POINTER=ON \
-      -D BUILD_opencv_apps=ON \
-      -D BUILD_opencv_aruco=ON \
-      -D BUILD_opencv_bgsegm=ON \
-      -D BUILD_opencv_calib3d=ON \
-      -D BUILD_opencv_bioinspired=ON \
-      -D BUILD_opencv_dnn=ON \
-      -D BUILD_opencv_dpm=ON \
-      -D BUILD_opencv_core=ON \
-      -D BUILD_opencv_face=ON \
-      -D BUILD_opencv_features2d=ON \
-      -D BUILD_opencv_flann=ON \
-      -D BUILD_opencv_freetype=ON \
-      -D BUILD_opencv_fuzzy=ON \
-      -D BUILD_opencv_hfs=ON \
-      -D BUILD_opencv_highgui=ON \
-      -D BUILD_opencv_imgcodecs=ON \
-      -D BUILD_opencv_imgproc=ON \
-      -D BUILD_opencv_ml=ON \
-      -D BUILD_opencv_objdetect=ON \
-      -D BUILD_opencv_optflow=ON \
-      -D BUILD_opencv_phase_unwrapping=ON \
-      -D BUILD_opencv_photo=ON \
-      -D BUILD_opencv_plot=ON \
-      -D BUILD_opencv_python2=ON \
-      -D BUILD_opencv_python3=ON \
-      -D BUILD_opencv_reg=ON \
-      -D BUILD_opencv_rgbd=ON \
-      -D BUILD_opencv_saliency=ON \
-      -D BUILD_opencv_shape=ON \
-      -D BUILD_opencv_stereo=ON \
-      -D BUILD_opencv_stitching=ON \
-      -D BUILD_opencv_superres=ON \
-      -D BUILD_opencv_surface_matching=ON \
-      -D BUILD_opencv_text=ON \
-      -D BUILD_opencv_tracking=ON \
-      -D BUILD_opencv_ts=ON \
-      -D BUILD_opencv_video=ON \
-      -D BUILD_opencv_videoio=ON \
-      -D BUILD_opencv_videostab=ON \
-      -D BUILD_opencv_viz=OFF \
-      -D BUILD_opencv_world=OFF \
-      -D BUILD_opencv_xfeature2d=ON \
-      -D BUILD_opencv_ximgproc=ON \
-      -D BUILD_opencv_xobjdetect=ON \
-      -D BUILD_opencv_xphoto=ON \
-      -D BUILD_opencv_java=OFF \
-      -D BUILD_opencv_cudaarithm=OFF \
-      -D BUILD_opencv_cudabgsegm=OFF \
-      -D BUILD_opencv_cudacodec=OFF \
-      -D BUILD_opencv_cudafeatures2d=OFF \
-      -D BUILD_opencv_cudafilters=OFF \
-      -D BUILD_opencv_cudaimgproc=OFF \
-      -D BUILD_opencv_cudalegacy=OFF \
-      -D BUILD_opencv_cudaobjdetect=OFF \
-      -D BUILD_opencv_cudaoptflow=OFF \
-      -D BUILD_opencv_cudastereo=OFF \
-      -D BUILD_opencv_cudawarping=OFF \
-      -D BUILD_opencv_cudev=OFF \
       -D Tesseract_INCLUDE_DIR=$TESS_INC_DIR \
       -D Tesseract_LIBRARY=$TESS_LIBRARY \
       -D OPENCL_INCLUDE_DIR=/usr/include \
       -D OPENCL_LIBRARY=/usr/lib/arm-linux-gnueabihf/libOpenCL.so \
       .. && make
-
-author=thortex
 
 R=`date "+%Y%m%d"`
 GCC_VER=`gcc --version | head -1`

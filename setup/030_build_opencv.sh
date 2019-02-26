@@ -5,6 +5,7 @@ TESS_INC_DIR=/usr/local/include/tesseract
 TESS_LIBRARY=/usr/local/lib/libtesseract.so.4
 
 sudo pip3 install wheel numpy scipy matplotlib scikit-image scikit-learn ipython dlib
+export PATH="/usr/local/gcc-8.1.0/6:$PATH"
 
 sudo apt-get install -y \
      build-essential \
@@ -81,6 +82,9 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D OPENCV_GENERATE_PKGCONFIG=YES \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+      -D "TBB_USE_GCC_BUILTINS=1 -D__TBB_64BIT_ATOMICS=0" \
+      -D BUILD_TESTS=OFF \
+      -D WITH_TBB=ON \
       -D BUILD_SHARED_LIBS=ON \
       -D OPENCV_ENABLE_NONFREE=ON \
       -D BUILD_CUDA_STUBS=ON \
@@ -117,7 +121,6 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_GPHOTO2=ON \
       -D WITH_OPENGL=OFF \
       -D WITH_QT=ON \
-      -D WITH_TBB=ON \
       -D WITH_WEBP=ON \
       -D WITH_UNICAP=ON \
       -D WITH_OPENNI=OFF \

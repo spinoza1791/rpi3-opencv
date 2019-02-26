@@ -205,30 +205,7 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D Tesseract_LIBRARY=$TESS_LIBRARY \
       -D OPENCL_INCLUDE_DIR=/usr/include \
       -D OPENCL_LIBRARY=/usr/lib/arm-linux-gnueabihf/libOpenCL.so \
-      .. && make
-
-
-R=`date "+%Y%m%d"`
-GCC_VER=`gcc --version | head -1`
-
-cat << EOF > description-pak
-OpenCV for Raspberry Pi with OpenCL features.
-Built with $GCC_VER
-EOF
-
-export PATH="/usr/lib/gcc/arm-linux-gnueabihf/6:$PATH"
-
-sudo dpkg --purge opencv
-
-sudo -E checkinstall --type=debian \
-      --install=no \
-      --default \
-      --pkgname=opencv \
-      --pkgversion=$V \
-      --pkgrelease=$R \
-      --maintainer=$author \
-      --provides=opencv \
-      --summary="OpenCV for Raspberry Pi" 
+      .. && make -j4 && sudo make install & sudo ldconfig
 
 
 

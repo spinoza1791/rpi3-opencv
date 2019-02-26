@@ -4,7 +4,7 @@ V=4.0.1
 TESS_INC_DIR=/usr/local/include/tesseract
 TESS_LIBRARY=/usr/local/lib/libtesseract.so.4
 
-sudo pip3 install numpy
+sudo pip3 install wheel numpy scipy matplotlib scikit-image scikit-learn ipython dlib
 
 sudo apt-get install -y \
      build-essential \
@@ -25,6 +25,7 @@ sudo apt-get install -y \
      libswscale-dev \
      libv4l-dev \
      libxvidcore-dev \
+     v4l-utils \
      libx264-dev \
      libgtk-3-dev \
      libgdk-pixbuf2.0-dev \
@@ -77,6 +78,7 @@ cd build
 export CXXFLAGS='-mtune=cortex-a53 -march=armv8-a+crc -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8'
 
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
+      -D OPENCV_GENERATE_PKGCONFIG=YES \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
       -D BUILD_SHARED_LIBS=ON \

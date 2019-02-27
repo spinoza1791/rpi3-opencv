@@ -4,9 +4,6 @@ V=4.0.1
 TESS_INC_DIR=/usr/local/include/tesseract
 TESS_LIBRARY=/usr/local/lib/libtesseract.so.4
 
-sudo pip3 install wheel numpy scipy matplotlib scikit-image scikit-learn ipython dlib
-export PATH="/usr/local/gcc-8.1.0/6:$PATH"
-
 sudo apt-get install -y \
      build-essential \
      gettext \
@@ -69,6 +66,7 @@ sudo apt-get install -y \
      libunicap2-dev \
      ffmpeg 
 
+sudo pip3 install wheel numpy scipy matplotlib scikit-image scikit-learn ipython dlib
 
 git clone --depth=1 -b ${V} --single-branch https://github.com/opencv/opencv.git
 git clone --depth=1 -b ${V} --single-branch https://github.com/opencv/opencv_contrib.git
@@ -77,26 +75,18 @@ mkdir -p build
 cd build
 
 export CXXFLAGS='-mtune=cortex-a53 -march=armv8-a+crc -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8'
+#export CXXFLAGS='-mtune=cortex-a53 -march=armv8-a+simd -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8'
 
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D OPENCV_GENERATE_PKGCONFIG=YES \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-      -D "TBB_USE_GCC_BUILTINS=1 -D__TBB_64BIT_ATOMICS=0" \
-      -D BUILD_TESTS=OFF \
-      -D WITH_TBB=ON \
       -D BUILD_SHARED_LIBS=ON \
       -D OPENCV_ENABLE_NONFREE=ON \
       -D BUILD_CUDA_STUBS=ON \
       -D BUILD_DOCS=OFF \
       -D BUILD_ZLIB=OFF \
-      -D BUILD_TIFF=OFF \
-      -D BUILD_JPEG=OFF \
-      -D BUILD_JASPER=OFF \
-      -D BUILD_PNG=OFF \
-      -D BUILD_OPENEXR=OFF \
       -D BUILD_PERF_TESTS=OFF \
-      -D BUILD_TBB=OFF \
       -D BUILD_WEBP=OFF \
       -D BUILD_TESTS=OFF \
       -D BUILD_EXAMPLES=OFF \
@@ -121,6 +111,7 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_GPHOTO2=ON \
       -D WITH_OPENGL=OFF \
       -D WITH_QT=ON \
+      -D WITH_TBB=ON \
       -D WITH_WEBP=ON \
       -D WITH_UNICAP=ON \
       -D WITH_OPENNI=OFF \

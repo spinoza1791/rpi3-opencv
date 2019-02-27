@@ -5,10 +5,8 @@ TESS_INC_DIR=/usr/local/include/tesseract
 TESS_LIBRARY=/usr/local/lib/libtesseract.so.4
 
 sudo apt-get install -y \
-     build-essential \
      gettext \
      ccache \
-     cmake \
      pkg-config \
      libpng-dev \
      libpng++-dev \

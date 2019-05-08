@@ -1,8 +1,6 @@
 #!/bin/sh -x
 
-V=4.0.1
-TESS_INC_DIR=/usr/local/include/tesseract
-TESS_LIBRARY=/usr/local/lib/libtesseract.so.4
+V=4.1.0
 
 sudo apt-get install -y \
      gettext \
@@ -72,8 +70,10 @@ cd opencv
 mkdir -p build
 cd build
 
-export CXXFLAGS='-mtune=cortex-a53 -march=armv8-a+crc -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8'
+#export CXXFLAGS='-mtune=cortex-a53 -march=armv8-a+crc -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8'
 #export CXXFLAGS='-mtune=cortex-a53 -march=armv8-a+simd -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8'
+export CFLAGS="-mcpu=cortex-a53 -mfpu=neon-vfpv4 -ftree-vectorize -mfloat-abi=hard -fPIC -O3"
+export CXXFLAGS="-mcpu=cortex-a53 -mfpu=neon-vfpv4 -ftree-vectorize -mfloat-abi=hard -fPIC -O3"
 
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D OPENCV_GENERATE_PKGCONFIG=YES \
@@ -81,7 +81,6 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
       -D BUILD_SHARED_LIBS=ON \
       -D OPENCV_ENABLE_NONFREE=ON \
-      -D BUILD_CUDA_STUBS=ON \
       -D BUILD_DOCS=OFF \
       -D BUILD_ZLIB=OFF \
       -D BUILD_PERF_TESTS=OFF \
@@ -94,6 +93,8 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_GTK=ON \
       -D WITH_JASPER=ON \
       -D WITH_JPEG=ON \
+      -D EXTRA_C_FLAGS=-mcpu=cortex-a53 -mfpu=neon-vfpv4 -ftree-vectorize -mfloat-abi=hard 
+      -D EXTRA_CXX_FLAGS=-mcpu=cortex-a53 -mfpu=neon-vfpv4 -ftree-vectorize -mfloat-abi=hard
       -D WITH_OPENEXR=ON \
       -D WITH_PNG=ON \
       -D WITH_TIFF=ON \
@@ -107,7 +108,7 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_EIGEN=ON \
       -D WITH_FFMPEG=ON \
       -D WITH_GPHOTO2=ON \
-      -D WITH_OPENGL=OFF \
+      -D WITH_OPENGL=ON \
       -D WITH_QT=ON \
       -D WITH_TBB=OFF \
       -D WITH_WEBP=ON \
@@ -130,13 +131,11 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D WITH_OPENCLAMDBLAS=OFF \
       -D WITH_OPENCLAMDFFT=OFF \
       -D WITH_OPENCL_SVM=OFF \
-      -D INSTALL_PYTHON_EXAMPLES=ON \
+      -D INSTALL_PYTHON_EXAMPLES=OFF \
       -D ENABLE_CXX11=ON \
       -D ENABLE_CCACHE=ON \
       -D ENABLE_FAST_MATH=ON \
       -D ENABLE_NEON=ON \
-      -D ENABLE_VFPV3=ON \
-      -D ENABLE_OMIT_FRAME_POINTER=ON \
       -D BUILD_opencv_apps=ON \
       -D BUILD_opencv_aruco=ON \
       -D BUILD_opencv_bgsegm=ON \
@@ -182,23 +181,6 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D BUILD_opencv_ximgproc=ON \
       -D BUILD_opencv_xobjdetect=ON \
       -D BUILD_opencv_xphoto=ON \
-      -D BUILD_opencv_java=OFF \
-      -D BUILD_opencv_cudaarithm=OFF \
-      -D BUILD_opencv_cudabgsegm=OFF \
-      -D BUILD_opencv_cudacodec=OFF \
-      -D BUILD_opencv_cudafeatures2d=OFF \
-      -D BUILD_opencv_cudafilters=OFF \
-      -D BUILD_opencv_cudaimgproc=OFF \
-      -D BUILD_opencv_cudalegacy=OFF \
-      -D BUILD_opencv_cudaobjdetect=OFF \
-      -D BUILD_opencv_cudaoptflow=OFF \
-      -D BUILD_opencv_cudastereo=OFF \
-      -D BUILD_opencv_cudawarping=OFF \
-      -D BUILD_opencv_cudev=OFF \
-      -D Tesseract_INCLUDE_DIR=$TESS_INC_DIR \
-      -D Tesseract_LIBRARY=$TESS_LIBRARY \
-      -D OPENCL_INCLUDE_DIR=/usr/include \
-      -D OPENCL_LIBRARY=/usr/lib/arm-linux-gnueabihf/libOpenCL.so \
       .. && make -j4 && sudo make install & sudo ldconfig
 
 

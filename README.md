@@ -1,3 +1,8 @@
+sudo nano /etc/dphys-swapfile
+CONF_SWAPSIZE=2048
+sudo /etc/init.d/dphys-swapfile stop && sudo /etc/init.d/dphys-swapfile start
+
+
 # OpenCV for Raspberry Pi 3
 
 A prebuilt binary debian package of OpenCV 4.0.1 for Raspberry Pi 3. It depends on Tesseract 4 and VC4CL by doe300.
